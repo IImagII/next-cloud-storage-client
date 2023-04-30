@@ -1,4 +1,5 @@
-import LoginForm from '@/components/auth/LoginForm'
+
+import { LoginForm } from '@/components/auth/LoginForm'
 import RegisterForm from '@/components/auth/RegisterForm'
 import { Tabs } from 'antd'
 import { NextPage } from 'next'

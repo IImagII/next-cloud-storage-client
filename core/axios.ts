@@ -10,6 +10,7 @@ axios.defaults.baseURL = 'http://localhost:7777'
  * делал запрос есть ли у пользователя токен */
 
 axios.interceptors.request.use((config) => {
+  //этапроверканужна имено для того чтобы понять в браузере будетвыполнятся код или на сервере
   if (typeof window !== 'undefined') {
     const { _token } = parseCookies()
 
