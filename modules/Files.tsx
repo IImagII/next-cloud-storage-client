@@ -1,5 +1,5 @@
 import { Empty } from 'antd'
-import { FC, useState } from 'react'
+import { FC, useRef, useState } from 'react'
 
 import FileActions from '@/components/file-actions/FileActions'
 import FileList, { FileSelectType } from '@/components/file-list/FileList'
@@ -17,15 +17,14 @@ interface IFiles {
 const Files: FC<IFiles> = ({ items, withActions }) => {
   const [files, setFiles] = useState(items || [])
 
-  const [selectedIds, setSelectedIds] = useState<number>(0) //состояние коотрое хранит соклько файлов мы выбрали мышкой
-  console.log('🚀 ~ selectedIds:', selectedIds)
+  const [selectedIds, setSelectedIds] = useState<number[]>([]) //состояние коотрое хранит соклько файлов мы выбрали мышкой
 
+  const containerRef = useRef<HTMLDivElement>(null)
   //функция удаления файлов
-  const onClickRemove = (id) => {
-    setSelectedIds(0)
-    setFiles((prev) => prev.filter((file) => file.id !== id)) //тут удаялем файл из нашего состояния
+  const onClickRemove = () => {
+    setSelectedIds([])
+    setFiles((prev) => prev.filter((file) => !selectedIds.includes(file.id)))
     FileService.remove(selectedIds)
-    window.location.reload()
   }
 
   const onClickShare = () => {
@@ -35,24 +34,28 @@ const Files: FC<IFiles> = ({ items, withActions }) => {
   //функция коотрая отслеживает солкьо мы выбрали фалов мышкой
   const onFileSelect = (id: number, type: FileSelectType) => {
     if (type === FileSelectType.SELECT) {
-      setSelectedIds(id)
+      setSelectedIds((prev) => [...prev, id])
     } else {
-      // setSelectedIds((prev) => prev.filter((_id) => _id !== id))
+      setSelectedIds((prev) => prev.filter((_id) => _id !== id))
     }
   }
 
   return (
-    <div>
+    <div ref={containerRef}>
       {files.length ? (
         <>
           {withActions && (
             <FileActions
-              isActive
+              isActive={selectedIds.length > 0}
               onClickRemove={onClickRemove}
               onClickShare={onClickShare}
             />
           )}
-          <FileList items={files} onFileSelect={onFileSelect} />
+          <FileList
+            items={files}
+            onFileSelect={onFileSelect}
+            containerRef={containerRef}
+          />
         </>
       ) : (
         <Empty className="empty-block" description="Список файлов пуст" />

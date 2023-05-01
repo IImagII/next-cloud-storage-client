@@ -21,7 +21,8 @@ export const FileService = {
   },
 
   //метод для удаления файлов
-  async remove(ids: number) {
+  async remove(ids: number[]) {
+    console.log('🚀 ~ ids:', ids)
     const { data } = await axios.delete<void>(`/${FILE}?id=${ids}`)
 
     return data
