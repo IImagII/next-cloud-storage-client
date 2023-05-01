@@ -16,7 +16,7 @@ export default function App({ Component, pageProps }: Props) {
   return (
     <>
       <NextProgressBar
-        color="#8690ec"
+        color="#fff01b"
         startPosition={0.3}
         stopDelayMs={200}
         height={3}

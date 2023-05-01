@@ -4,7 +4,7 @@ import { parseCookies } from 'nookies'
 // parseCookies-тут мы это применили для вытягиванию токена
 
 //запрос по умолчанию
-axios.defaults.baseURL = 'http://localhost:7777'
+axios.defaults.baseURL = `${process.env.NEXT_PUBLIC_URL}`
 
 /**необходимо сделать так чтобы axios проверял каждый раз когда
  * делал запрос есть ли у пользователя токен */

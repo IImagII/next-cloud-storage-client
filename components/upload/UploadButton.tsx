@@ -16,6 +16,8 @@ const UploadButton: FC = () => {
       const file = await FileService.uploadFile(options) //запрос на отправку файлов
 
       setFileList([]) //это для очистки обратить внимание что передаем какбы путой массив тоесть то что содержалось по дефолту
+
+      window.location.reload()
     } catch (err) {
       notification.error({
         message: 'Ошибка!',

@@ -4,9 +4,9 @@ import axios from '../core/axios'
 
 import { IFileItem } from './dto/file.interface'
 
-enum FileType {
+export enum FileType {
   All = 'all',
-  Photo = 'photo',
+  Photo = 'photos',
   Trash = 'trash'
 }
 
@@ -14,15 +14,15 @@ const FILE = 'files'
 
 export const FileService = {
   //метод для получения файлов
-  async getAll(type: FileType.All) {
+  async getAll(type: FileType = FileType.All) {
     const { data } = await axios.get<IFileItem[]>(`/${FILE}?type=${type}`)
 
     return data
   },
 
   //метод для удаления файлов
-  async remove(ids: number[]) {
-    const { data } = await axios.delete<void>(`/${FILE}?ids=${ids}`)
+  async remove(ids: number) {
+    const { data } = await axios.delete<void>(`/${FILE}?id=${ids}`)
 
     return data
   },
